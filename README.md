@@ -2,7 +2,7 @@
 
 Bài tập môn Phát triển ứng dụng Web học kỳ hè 2020-2021.
 
-Đây mới là một nửa của toàn bộ ứng dụng (phía backend), nửa còn lại có tại [đây]().
+Đây mới là một nửa của toàn bộ ứng dụng (phía backend), nửa còn lại có tại [đây](https://github.com/jnt2811/petHouseManagement).
 
 # Bắt đầu
 
@@ -42,6 +42,6 @@ NestJS sẽ tự động liên kết tất cả lại, không cần import bằn
 
 # Thành viên
 
-- [Nguyễn Quốc Khánh]()
-- [Nguyễn Văn Khiêm]()
-- [Nguyễn Thăng Long]()
+- [Nguyễn Quốc Khánh](https://github.com/khanhnguyenuet)
+- [Nguyễn Văn Khiêm](https://github.com/khieem)
+- [Nguyễn Thăng Long](https://github.com/HeoSolji)
