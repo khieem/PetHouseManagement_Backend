@@ -1,44 +1,57 @@
-import { truncate } from 'node:fs';
 import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
+import { Appointment } from './appointment.entity';
+import { Donation } from './donation.entity';
+import { Report } from './report.entity';
+import { Schedule } from './schedule.entity';
 
 @Entity()
 export class User {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ type: 'varchar', length: 10, unique: true })
+	// sqlite không quan tâm độ dài của dữ liệu nên không cần khai báo length
+	@Column({ type: 'text', unique: true })
 	phone: string;
 
-	// nhớ có thêm length khi khai báo varchar
-	@Column({ type: 'varchar', length: 128 })
+	@Column({ type: 'text', nullable: true })
 	name: string;
 
-	// 0: nam; 1: nữ; 2: khác. typeorm hỗ trợ dạng enum nhưng sqlite thì k hỗ trợ nên đành gán bằng tay vậy :)))
-	@Column({ type: 'int', nullable: true })
+	@Column({ type: 'text', nullable: true })
 	sex: number;
 
-	// 0: admin, 1: volunteer, 2: clinic, 3: donator
-	@Column({ type: 'int' })
+	@Column({ type: 'text', nullable: true })
 	role: number;
 
-	@Column({ type: 'varchar', length: 128 })
+	@Column({ type: 'text', nullable: true })
 	address: string;
 
-	@Column({ type: 'varchar', length: 128, unique: true })
+	@Column({ type: 'text', nullable: true })
 	email: string;
 
-	@Column({ type: 'boolean' })
+	@Column({ type: 'boolean', nullable: true })
 	collab: boolean;
 
-	// donator không cần mật khẩU nên để null
-	@Column({ type: 'varchar', length: 128, nullable: true })
+	@Column({ type: 'text', nullable: true })
 	password: string;
+
+	@OneToMany(() => Donation, (donation) => donation.user)
+	donations: Donation[];
+
+	@OneToMany(() => Schedule, (schedule) => schedule.user)
+	schedules: Schedule[];
+
+	@OneToMany(() => Report, (report) => report.clinic)
+	reports: Report[];
+
+	@OneToMany(() => Appointment, (appointment) => appointment.clinic)
+	appointments: Appointment[];
 
 	// nó sẽ tự quản lý 2 cột này nên chỉ cần gán như này thôi
 	@CreateDateColumn()
