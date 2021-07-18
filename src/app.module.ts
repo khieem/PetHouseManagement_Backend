@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { VolunteerModule } from 'src/volunteer/volunteer.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
 	imports: [
-		VolunteerModule,
+		UserModule,
 		TypeOrmModule.forRoot({
 			type: 'sqlite',
 			database: 'db',
