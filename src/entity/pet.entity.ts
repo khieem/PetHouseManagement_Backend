@@ -2,12 +2,14 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
 import { Appointment } from './appointment.entity';
 import { Report } from './report.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Pet {
@@ -28,6 +30,9 @@ export class Pet {
 
 	@OneToMany(() => Appointment, (appointment) => appointment.pet)
 	appointments: Appointment[];
+
+	@ManyToOne(() => User, (user) => user.pet)
+	volunteer: User;
 
 	@CreateDateColumn()
 	createAt: Date;

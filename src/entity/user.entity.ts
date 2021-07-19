@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Appointment } from './appointment.entity';
 import { Donation } from './donation.entity';
+import { Pet } from './pet.entity';
 import { Report } from './report.entity';
 import { Schedule } from './schedule.entity';
 
@@ -16,7 +17,6 @@ export class User {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	// sqlite không quan tâm độ dài của dữ liệu nên không cần khai báo length
 	@Column({ type: 'text', unique: true })
 	phone: string;
 
@@ -53,7 +53,9 @@ export class User {
 	@OneToMany(() => Appointment, (appointment) => appointment.clinic)
 	appointments: Appointment[];
 
-	// nó sẽ tự quản lý 2 cột này nên chỉ cần gán như này thôi
+	@OneToMany(() => Pet, (pet) => pet.volunteer)
+	pet: Pet;
+
 	@CreateDateColumn()
 	createAt: Date;
 
