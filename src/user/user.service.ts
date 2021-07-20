@@ -18,4 +18,8 @@ export class UserService {
 	async create(user: User) {
 		return await this.userDb.save(user);
 	}
+
+	async getUsersByRole(role: 'admin' | 'volunteer' | 'clinic' | 'donator') {
+		return this.userDb.find({ where: { role: role } });
+	}
 }

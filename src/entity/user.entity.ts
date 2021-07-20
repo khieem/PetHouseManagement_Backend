@@ -24,10 +24,10 @@ export class User {
 	name: string;
 
 	@Column({ type: 'text', nullable: true })
-	sex: number;
+	gender: string;
 
 	@Column({ type: 'text', nullable: true })
-	role: number;
+	role: string;
 
 	@Column({ type: 'text', nullable: true })
 	address: string;
