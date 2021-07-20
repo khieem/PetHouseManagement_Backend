@@ -1,4 +1,4 @@
-import { AppointmentModule } from './appointment/appointmentmodule.module';
+import { AppointmentModule } from './appointment/appointment.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from 'src/user/user.module';
