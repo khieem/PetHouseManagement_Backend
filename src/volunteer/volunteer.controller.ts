@@ -4,6 +4,7 @@ import {
 	Get,
 	HttpException,
 	HttpStatus,
+	Param,
 	Post,
 } from '@nestjs/common';
 import { User } from 'src/entity/user.entity';
@@ -16,6 +17,11 @@ export class VolunteerController {
 	@Get()
 	async getAllVolunteers() {
 		return this.userService.getUsersByRole('volunteer');
+	}
+
+	@Get(':id')
+	async getVolunteerById(@Param('id') id: string) {
+		return await this.userService.GetUserById(id, 'volunteer');
 	}
 
 	@Post()
