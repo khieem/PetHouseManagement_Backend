@@ -2,12 +2,12 @@
 https://docs.nestjs.com/controllers#controllers
 */
 
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { Appointment } from 'src/entity/appointment.entity';
 import { User } from 'src/entity/user.entity';
 import { AppointmentService } from './appointment.service';
 
-@Controller()
+@Controller('appointment')
 export class AppointmentController { 
     constructor(private appointmentService: AppointmentService) {}
 
@@ -26,7 +26,7 @@ export class AppointmentController {
         return this.appointmentService.addAppointment(appointment);
     }
 
-    @Post(':id')
+    @Put(':id')
     updateAppointment(@Param('id') id: number, @Body('date') date: Date, @Body() clinic: User){
         return this.appointmentService.updateAppointment(id, date, clinic);
     }
