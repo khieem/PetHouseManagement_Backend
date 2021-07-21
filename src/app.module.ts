@@ -1,3 +1,4 @@
+import { AppointmentModule } from './appointment/appointment.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from 'src/user/user.module';
@@ -10,6 +11,7 @@ import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
 	imports: [
+		AppointmentModule,
 		UserModule,
 		TypeOrmModule.forRoot({
 			type: 'sqlite',
@@ -25,4 +27,4 @@ import { ScheduleModule } from './schedule/schedule.module';
 		ScheduleModule,
 	],
 })
-export class AppModule {}
+export class AppModule { }
