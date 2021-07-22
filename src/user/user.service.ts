@@ -1,4 +1,5 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entity/user.entity';
@@ -11,23 +12,15 @@ export class UserService {
 		return await this.userDb.find();
 	}
 
-	async GetUserById(id: string, role: string = undefined) {
-		if (role) {
-			var user = await this.userDb.find({
-				where: { role: role, id: id },
-			});
-			if (user.length > 0) return user;
-			throw new HttpException('Không tồn tại', HttpStatus.NOT_FOUND);
-		}
-
-		return await this.userDb.findByIds([id]);
+	async getUser(condition) {
+		return await this.userDb.find(condition);
 	}
 
 	async create(user: User) {
-		return await this.userDb.save(user);
-	}
-
-	async getUsersByRole(role: 'admin' | 'volunteer' | 'clinic' | 'donator') {
-		return this.userDb.find({ where: { role: role } });
+		const info = await this.userDb.find({
+			where: [{ phone: user.phone }, { email: user.email }],
+		});
+		if (info) throw new BadRequestException('Người dùng đã tồn tại');
+		this.userDb.save(user);
 	}
 }
