@@ -6,10 +6,13 @@ import {
 	HttpStatus,
 	Param,
 	Post,
+	UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { User } from 'src/entity/user.entity';
 import { UserService } from 'src/user/user.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('volunteer')
 export class VolunteerController {
 	constructor(private userService: UserService) {}

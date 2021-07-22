@@ -17,10 +17,10 @@ export class UserService {
 	}
 
 	async create(user: User) {
-		const info = await this.userDb.find({
+		const info = await this.userDb.findOne({
 			where: [{ phone: user.phone }, { email: user.email }],
 		});
 		if (info) throw new BadRequestException('Người dùng đã tồn tại');
-		this.userDb.save(user);
+		return this.userDb.save(user);
 	}
 }
