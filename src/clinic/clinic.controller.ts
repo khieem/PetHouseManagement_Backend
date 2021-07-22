@@ -7,10 +7,13 @@ import {
 	Param,
 	Post,
 	Put,
+	UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { User } from 'src/entity/user.entity';
 import { UserService } from 'src/user/user.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('clinic')
 export class ClinicController {
 	constructor(private userService: UserService) {}
