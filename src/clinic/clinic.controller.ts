@@ -17,25 +17,16 @@ export class ClinicController {
 
 	@Get()
 	async getAllClinics() {
-		return await this.userService.getUsersByRole('clinic');
+		return await this.userService.getUser({ role: 'clinic' });
 	}
 
 	@Get(':id')
 	async getClinicById(@Param('id') id: string) {
-		return this.userService.GetUserById(id, 'clinic');
+		return this.userService.getUser({ id, role: 'clinic' });
 	}
 
 	@Post()
 	createNewClinic(@Body() clinic: User) {
-		if (clinic.role != 'clinic')
-			throw new HttpException(
-				{
-					status: HttpStatus.BAD_REQUEST,
-					error: 'Vai trò phải là "clinic"',
-				},
-				HttpStatus.BAD_REQUEST
-			);
-
 		return this.userService.create(clinic);
 	}
 }
