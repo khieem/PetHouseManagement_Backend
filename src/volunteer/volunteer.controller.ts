@@ -16,12 +16,12 @@ export class VolunteerController {
 
 	@Get()
 	async getAllVolunteers() {
-		return this.userService.getUsersByRole('volunteer');
+		return this.userService.getUser({ role: 'volunteer' });
 	}
 
 	@Get(':id')
 	async getVolunteerById(@Param('id') id: string) {
-		return await this.userService.GetUserById(id, 'volunteer');
+		return await this.userService.getUser({ id, role: 'volunteer' });
 	}
 
 	@Post()

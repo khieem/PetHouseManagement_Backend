@@ -22,6 +22,6 @@ export class DonationController {
 
 	@Get('donator')
 	async getAllDonator() {
-		return this.userService.getUsersByRole('donator');
+		return this.userService.getUser({ role: 'donator' });
 	}
 }
