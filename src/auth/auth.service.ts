@@ -9,14 +9,6 @@ export class AuthService {
 		private jwtService: JwtService
 	) {}
 
-	async create(user: any) {
-		return this.userService.create(user);
-	}
-
-	async findOne(condition: any) {
-		return this.userService.getAll(condition);
-	}
-
 	async validateUser(phone: string, password: string) {
 		const user = await this.userService.getOne({ phone: phone });
 		if (user && user.password === password) {

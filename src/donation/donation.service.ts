@@ -23,7 +23,7 @@ export class DonationService {
 	}
 
 	async getAllDonators(): Promise<ReturnDonatorDto[]> {
-		const users = await this.userService.getUser({ role: 'donator' });
+		const users = await this.userService.getAll({ role: 'donator' });
 		return users.map((user) => map2donator(user));
 	}
 }

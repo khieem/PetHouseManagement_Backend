@@ -13,12 +13,12 @@ export class ClinicService {
 	constructor(private userService: UserService) {}
 
 	async getAll(): Promise<ReturnClinicDto[]> {
-		const users = await this.userService.getUser({ role: 'clinic' });
+		const users = await this.userService.getAll({ role: 'clinic' });
 		return users.map((user) => map2clinic(user));
 	}
 
 	async get(i: number): Promise<ReturnClinicDto> {
-		const [found] = await this.userService.getUser({ id: i, role: 'clinic' });
+		const [found] = await this.userService.getAll({ id: i, role: 'clinic' });
 		if (!found) throw new NotFoundException();
 		return map2clinic(found);
 	}

@@ -8,30 +8,24 @@ import { User } from '../entity/user.entity';
 export class UserService {
 	constructor(@InjectRepository(User) private userDb: Repository<User>) {}
 
-	async getAll(): Promise<User[]> {
-		return await this.userDb.find();
-	}
-
-	async getUser(condition): Promise<User[]> {
+	async getAll(condition?: any): Promise<User[]> {
 		return await this.userDb.find(condition);
 	}
 
-	async getOne(condition): Promise<User> {
+	async getOne(condition: any): Promise<User> {
 		const found = await this.userDb.findOne(condition);
 		if (!found) throw new NotFoundException();
 		return found;
 	}
 
-	async create(user): Promise<User> {
+	async create(user: any): Promise<User> {
 		if (!user.phone) throw new BadRequestException();
-		const info = await this.userDb.findOne({
-			where: [{ phone: user.phone }, { email: user.email }],
-		});
+		const info = await this.userDb.findOne({ phone: user.phone });
 		if (info) throw new BadRequestException('Người dùng đã tồn tại');
 		return this.userDb.save(user);
 	}
 
-	async update(id: number, dto): Promise<User> {
+	async update(id: number, dto: any): Promise<User> {
 		const found = await this.userDb.findOne(id);
 		if (!found) throw new NotFoundException();
 		const update = Object.assign(found, dto);

@@ -3,8 +3,6 @@ import {
 	Controller,
 	Delete,
 	Get,
-	HttpException,
-	HttpStatus,
 	Param,
 	Patch,
 	Post,
@@ -12,8 +10,6 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { User } from 'src/entity/user.entity';
-// import { UserDto } from 'src/user/dto/user.dto';
-import { UserService } from 'src/user/user.service';
 import { VolunteerService } from './volunteer.service';
 
 @UseGuards(JwtAuthGuard)
@@ -27,7 +23,7 @@ export class VolunteerController {
 	}
 
 	@Get(':id')
-	async getVolunteerById(@Param('id') id: string) {
+	async getVolunteerById(@Param('id') id: number) {
 		return await this.volunteerService.getById(id);
 	}
 
@@ -37,13 +33,12 @@ export class VolunteerController {
 	}
 
 	@Patch(':id')
-	async updateVolunteer(@Param('id') id: number, @Body() updateData) {
+	async updateVolunteer(@Param('id') id: number, @Body() updateData: any) {
 		return await this.volunteerService.update(id, updateData);
 	}
 
 	@Delete(':id')
-	async removeVolunteer(@Param('id') id) {
-		console.log('controller');
+	async removeVolunteer(@Param('id') id: number) {
 		return await this.volunteerService.remove(id);
 	}
 }

@@ -6,14 +6,14 @@ export class VolunteerService {
 	constructor(private userService: UserService) {}
 
 	async getAll() {
-		return this.userService.getUser({ role: 'volunteer' });
+		return this.userService.getAll({ role: 'volunteer' });
 	}
 
-	async getById(id) {
+	async getById(id: number) {
 		return this.userService.getOne({ id, role: 'volunteer' });
 	}
 
-	async create(volunteer) {
+	async create(volunteer: any) {
 		return this.userService.create({
 			role: 'volunteer',
 			collab: true,
@@ -21,12 +21,11 @@ export class VolunteerService {
 		});
 	}
 
-	async update(id, dto) {
+	async update(id: number, dto: any) {
 		return this.userService.update(id, dto);
 	}
 
-	async remove(id) {
-		console.log('service');
+	async remove(id: number) {
 		return this.userService.removeUser(id);
 	}
 }
