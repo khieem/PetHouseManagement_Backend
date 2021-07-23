@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Report } from 'src/entity/report.entity';
+import { createReportDto } from './dtos/createReport.dto';
 import { ReportService } from './report.service';
 
 @UseGuards(JwtAuthGuard)
@@ -19,7 +20,7 @@ export class ReportController {
 	}
 
 	@Post()
-	async createrReport(@Body() report: Report) {
-		return await this.reportService.create(report);
+	async createrReport(@Body() dto: createReportDto) {
+		return await this.reportService.create(dto);
 	}
 }
