@@ -13,7 +13,7 @@ export class AppointmentService {
 	) {}
 
 	async getAllappointments(): Promise<Appointment[]> {
-		return await this.appointmentDB.find();
+		return await this.appointmentDB.find({ relations: ['clinic', 'pet'] });
 	}
 
 	async getSpecificAppointment(id: number): Promise<Appointment> {

@@ -10,11 +10,11 @@ export class PetService {
 	constructor(@InjectRepository(Pet) private petDb: Repository<Pet>) {}
 
 	async getAll() {
-		return await this.petDb.find();
+		return await this.petDb.find({ relations: ['volunteer'] });
 	}
 
 	async getbyId(id) {
-		return await this.petDb.findOne(id);
+		return await this.petDb.findOne(id, { relations: ['volunteer'] });
 	}
 
 	async create(dto: createPetDto) {

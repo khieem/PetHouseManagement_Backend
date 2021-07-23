@@ -9,7 +9,7 @@ export class ReportService {
 	constructor(@InjectRepository(Report) private reportDb: Repository<Report>) {}
 
 	async getAll() {
-		return await this.reportDb.find();
+		return await this.reportDb.find({ relations: ['pet', 'clinic'] });
 	}
 
 	async getById(id: string) {
