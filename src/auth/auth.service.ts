@@ -13,12 +13,12 @@ export class AuthService {
 		return this.userService.create(user);
 	}
 
-	async finOne(condition: any) {
-		return this.userService.getUser(condition);
+	async findOne(condition: any) {
+		return this.userService.getAll(condition);
 	}
 
 	async validateUser(phone: string, password: string) {
-		const [user] = await this.userService.getUser({ phone: phone });
+		const user = await this.userService.getOne({ phone: phone });
 		if (user && user.password === password) {
 			return user;
 		}
