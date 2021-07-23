@@ -1,8 +1,4 @@
-import {
-	BadRequestException,
-	Injectable,
-	NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Appointment } from 'src/entity/appointment.entity';
 import { Repository } from 'typeorm';
@@ -38,15 +34,14 @@ export class AppointmentService {
 		updateAppointmentDto: UpdateAppointmentDto
 	): Promise<Appointment> {
 		const found = await this.appointmentDB.findOne(id);
-		if (!found) throw new BadRequestException('Không tồn tại người dùng');
-		await this.appointmentDB.update(id, updateAppointmentDto);
+		if (!found) throw new NotFoundException();
 		const update = Object.assign(found, updateAppointmentDto);
 		return await this.appointmentDB.save(update);
 	}
 
 	async deleteAppointment(id: number) {
 		const found = await this.appointmentDB.findOne(id);
-		if (!found) throw new BadRequestException('Không tồn tại người dùng');
+		if (!found) throw new NotFoundException();
 		return await this.appointmentDB.remove(found);
 	}
 }

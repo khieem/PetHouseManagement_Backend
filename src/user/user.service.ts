@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -16,11 +16,26 @@ export class UserService {
 		return await this.userDb.find(condition);
 	}
 
-	async create(user: User) {
-		const info = await this.userDb.findOne({
-			where: [{ phone: user.phone }, { email: user.email }],
-		});
+	async getOne(condition) {
+		return await this.userDb.findOne(condition);
+	}
+
+	async create(user) {
+		const info = await this.userDb.findOne({ phone: user.phone });
 		if (info) throw new BadRequestException('Người dùng đã tồn tại');
 		return this.userDb.save(user);
+	}
+
+	async update(id, user) {
+		const found = this.userDb.findOne(id);
+		if (!found) throw new NotFoundException();
+		const update = Object.assign(found, user);
+		return await this.userDb.save(update);
+	}
+
+	async delete(id) {
+		const found = await this.userDb.findOne(id);
+		if (!found) throw new NotFoundException();
+		return await this.userDb.remove(found);
 	}
 }
