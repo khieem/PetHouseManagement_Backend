@@ -2,34 +2,44 @@ import {
 	Body,
 	Controller,
 	Get,
-	HttpException,
-	HttpStatus,
 	Param,
+	Patch,
 	Post,
-	Put,
 	UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { User } from 'src/entity/user.entity';
-import { UserService } from 'src/user/user.service';
+import { ClinicService } from './clinic.service';
+import { CreateClinicDto } from './dto/createClinic.dto';
+import { ReturnClinicDto } from './dto/returnClinic.dto';
+import { UpdateClinicDto } from './dto/updateClinic.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('clinic')
 export class ClinicController {
-	constructor(private userService: UserService) {}
+	constructor(private clinicService: ClinicService) {}
 
 	@Get()
-	async getAllClinics() {
-		return await this.userService.getUser({ role: 'clinic' });
+	async getAllClinics(): Promise<ReturnClinicDto[]> {
+		return await this.clinicService.getAll();
 	}
 
 	@Get(':id')
-	async getClinicById(@Param('id') id: string) {
-		return this.userService.getUser({ id, role: 'clinic' });
+	async getClinicById(@Param('id') id: number): Promise<ReturnClinicDto> {
+		return this.clinicService.get(id);
 	}
 
 	@Post()
-	createNewClinic(@Body() clinic: User) {
-		return this.userService.create(clinic);
+	async createNewClinic(
+		@Body() clinic: CreateClinicDto
+	): Promise<ReturnClinicDto> {
+		return await this.clinicService.create(clinic);
+	}
+
+	@Patch(':id')
+	updateClinic(
+		@Param('id') id: number,
+		dto: UpdateClinicDto
+	): Promise<ReturnClinicDto> {
+		return this.clinicService.update(id, dto);
 	}
 }

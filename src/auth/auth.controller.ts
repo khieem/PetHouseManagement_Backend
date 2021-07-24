@@ -9,20 +9,9 @@ import { LocalAuthGuard } from './local-auth.guard';
 export class AuthController {
 	constructor(private authService: AuthService) {}
 
-	@Post('register')
-	async register(@Body() user: User) {
-		return this.authService.create(user);
-	}
-
 	@UseGuards(LocalAuthGuard)
 	@Post('login')
 	async login(@Request() req) {
 		return this.authService.login(req.body);
-	}
-
-	@UseGuards(JwtAuthGuard)
-	@Get('protected')
-	get() {
-		return 'hello';
 	}
 }

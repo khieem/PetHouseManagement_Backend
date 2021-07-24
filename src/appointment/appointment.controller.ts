@@ -1,20 +1,17 @@
-/*
-https://docs.nestjs.com/controllers#controllers
-*/
-
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	Param,
+	Patch,
 	Post,
-	Put,
 	UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Appointment } from 'src/entity/appointment.entity';
-import { User } from 'src/entity/user.entity';
 import { AppointmentService } from './appointment.service';
+import { CreateAppoinmentDto } from './dto/createAppoinment.dto';
+import { UpdateAppointmentDto } from './dto/updateAppointment.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('appointment')
@@ -22,26 +19,30 @@ export class AppointmentController {
 	constructor(private appointmentService: AppointmentService) {}
 
 	@Get()
-	getAllAppointment() {
-		return this.appointmentService.getAllappointments();
+	async getAllAppointment() {
+		return await this.appointmentService.getAllappointments();
 	}
 
 	@Get(':id')
-	getSpecificAppointment(@Param('id') id: number) {
-		return this.appointmentService.getSpecificAppointment(id);
+	async getSpecificAppointment(@Param('id') id: number) {
+		return await this.appointmentService.getSpecificAppointment(id);
 	}
 
 	@Post()
-	makeAppointment(@Body() appointment: Appointment) {
-		return this.appointmentService.addAppointment(appointment);
+	async makeAppointment(@Body() body: CreateAppoinmentDto) {
+		return await this.appointmentService.addAppointment(body);
 	}
 
-	@Put(':id')
-	updateAppointment(
+	@Patch(':id')
+	async updateAppointment(
 		@Param('id') id: number,
-		@Body('date') date: Date,
-		@Body() clinic: User
+		@Body() body: UpdateAppointmentDto
 	) {
-		return this.appointmentService.updateAppointment(id, date, clinic);
+		return await this.appointmentService.updateAppointment(id, body);
+	}
+
+	@Delete(':id')
+	async deleteAppointment(@Param('id') id: number) {
+		return await this.appointmentService.deleteAppointment(id);
 	}
 }
