@@ -15,7 +15,10 @@ export class UserService {
 	}
 
 	async getUser(condition) {
-		return await this.userDb.find(condition);
+		return await this.userDb.find({
+			where: [condition],
+			relations: ['pet', 'donations', 'schedules', 'reports', 'appointments'],
+		});
 	}
 
 	async getOne(condition) {
