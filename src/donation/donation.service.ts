@@ -14,7 +14,7 @@ export class DonationService {
 	) {}
 
 	async getAll() {
-		return await this.donationDb.find();
+		return await this.donationDb.find({ relations: ['user'] });
 	}
 
 	async create(dto: CreateDonationDto) {

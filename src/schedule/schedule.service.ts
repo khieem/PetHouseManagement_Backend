@@ -10,11 +10,11 @@ export class ScheduleService {
 	) {}
 
 	async getAll() {
-		return await this.scheduleDb.find();
+		return await this.scheduleDb.find({ relations: ['user'] });
 	}
 
 	async getById(id: string) {
-		return await this.scheduleDb.findByIds([id]);
+		return await this.scheduleDb.findByIds([id], { relations: ['user'] });
 	}
 
 	async create(schedule: Schedule) {

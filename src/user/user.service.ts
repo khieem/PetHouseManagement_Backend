@@ -9,7 +9,9 @@ export class UserService {
 	constructor(@InjectRepository(User) private userDb: Repository<User>) {}
 
 	async getAll() {
-		return await this.userDb.find();
+		return await this.userDb.find({
+			relations: ['pet', 'donations', 'schedules', 'reports', 'appointments'],
+		});
 	}
 
 	async getUser(condition) {
@@ -17,7 +19,9 @@ export class UserService {
 	}
 
 	async getOne(condition) {
-		return await this.userDb.findOne(condition);
+		return await this.userDb.findOne(condition, {
+			relations: ['pet', 'donations', 'schedules', 'reports', 'appointments'],
+		});
 	}
 
 	async create(user) {
