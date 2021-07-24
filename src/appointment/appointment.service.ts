@@ -13,11 +13,13 @@ export class AppointmentService {
 	) {}
 
 	async getAllappointments(): Promise<Appointment[]> {
-		return await this.appointmentDB.find({ relations: ['clinic', 'pet'] });
+		return await this.appointmentDB.find({ relations: ['pet', 'clinic'] });
 	}
 
 	async getSpecificAppointment(id: number): Promise<Appointment> {
-		const found = await this.appointmentDB.findOne(id);
+		const found = await this.appointmentDB.findOne(id, {
+			relations: ['pet', 'clinic'],
+		});
 		if (!found) throw new NotFoundException();
 		return found;
 	}
