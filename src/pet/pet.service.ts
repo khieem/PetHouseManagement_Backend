@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pet } from 'src/entity/pet.entity';
@@ -22,13 +26,18 @@ export class PetService {
 	}
 
 	async create(dto: createPetDto) {
+		const found = await this.petDb.findOne({ name: dto.name });
+		if (found) throw new BadRequestException();
 		const pet = this.petDb.create({ ...dto });
 		return await this.petDb.save(pet);
 	}
 
 	async updateInf(id: string, dto: updatePetDto) {
 		let toUpdate = await this.petDb.findOne(id);
-		if (!toUpdate) throw new BadRequestException('Không tồn tại thú cưng này');
+		if (!toUpdate) throw new NotFoundException('Không tồn tại thú cưng này');
+
+		const found = await this.petDb.findOne({ name: dto.name });
+		if (found) throw new BadRequestException();
 		let update = Object.assign(toUpdate, dto);
 		return this.petDb.save(update);
 	}

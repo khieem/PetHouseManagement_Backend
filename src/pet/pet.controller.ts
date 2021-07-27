@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	Param,
+	Patch,
+	Post,
+	UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { KO, OK, res } from 'src/constants';
 import { Pet } from 'src/entity/pet.entity';
 import { createPetDto } from './dtos/createPet.dto';
 import { updatePetDto } from './dtos/updatePet.dto';
@@ -12,21 +21,33 @@ export class PetController {
 
 	@Get()
 	async getAllPet() {
-		return await this.petService.getAll();
+		return res(await this.petService.getAll());
 	}
 
 	@Get(':id')
 	async getPet(@Param('id') id: string) {
-		return await this.petService.getbyId(id);
+		const found = await this.petService.getbyId(id);
+		if (!found) return KO;
+		else return res(found);
 	}
 
 	@Post()
 	async createPet(@Body() pet: createPetDto) {
-		return await this.petService.create(pet);
+		try {
+			await this.petService.create(pet);
+			return OK;
+		} catch (e) {
+			return KO;
+		}
 	}
 
-	@Post(':id')
+	@Patch(':id')
 	async updatePet(@Param('id') id: string, @Body() petdata: updatePetDto) {
-		return await this.petService.updateInf(id, petdata);
+		try {
+			await this.petService.updateInf(id, petdata);
+			return OK;
+		} catch (e) {
+			return KO;
+		}
 	}
 }

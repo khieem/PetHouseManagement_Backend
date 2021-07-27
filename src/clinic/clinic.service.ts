@@ -32,6 +32,10 @@ export class ClinicService {
 	}
 
 	async update(id: number, dto: UpdateClinicDto): Promise<ReturnClinicDto> {
+		if (dto.phone) {
+			const found = await this.userService.getOne({ phone: dto.phone });
+			if (found) throw new BadRequestException();
+		}
 		return map2clinic(await this.userService.update(id, dto));
 	}
 }

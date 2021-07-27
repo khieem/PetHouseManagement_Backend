@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { res } from 'src/constants';
 import { createReportDto } from './dtos/createReport.dto';
 import { ReportService } from './report.service';
 
@@ -10,7 +11,7 @@ export class ReportController {
 
 	@Get()
 	async getAllReports() {
-		return await this.reportService.getAll();
+		return res(await this.reportService.getAll());
 	}
 
 	@Get(':id')

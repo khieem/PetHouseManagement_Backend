@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { OK, res } from 'src/constants';
 import { DonationService } from './donation.service';
 import { CreateDonationDto } from './dto/createDonation.dto';
 
@@ -10,16 +11,17 @@ export class DonationController {
 
 	@Get()
 	async getAllDonations() {
-		return await this.donationService.getAll();
+		return res(await this.donationService.getAll());
 	}
 
 	@Post()
 	async createDonation(@Body() donation: CreateDonationDto) {
-		return await this.donationService.create(donation);
+		await this.donationService.create(donation);
+		return OK;
 	}
 
 	@Get('donator')
 	async getAllDonators() {
-		return this.donationService.getAllDonators();
+		return res(await this.donationService.getAllDonators());
 	}
 }
