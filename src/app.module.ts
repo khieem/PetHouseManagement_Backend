@@ -9,17 +9,13 @@ import { ClinicModule } from './clinic/clinic.module';
 import { ReportModule } from './report/report.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { AuthModule } from './auth/auth.module';
+import config from 'ormconfig';
 
 @Module({
 	imports: [
 		AppointmentModule,
 		UserModule,
-		TypeOrmModule.forRoot({
-			type: 'sqlite',
-			database: 'db',
-			entities: [__dirname + '/**/*.entity{.ts,.js}'],
-			synchronize: true,
-		}),
+		TypeOrmModule.forRoot(config),
 		PetModule,
 		VolunteerModule,
 		DonationModule,
@@ -29,4 +25,4 @@ import { AuthModule } from './auth/auth.module';
 		AuthModule,
 	],
 })
-export class AppModule { }
+export class AppModule {}
