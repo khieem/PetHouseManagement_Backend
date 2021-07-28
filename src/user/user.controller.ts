@@ -9,6 +9,7 @@ import {
 	UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { KO, OK, res } from 'src/constants';
 import { UserService } from './user.service';
 
 @UseGuards(JwtAuthGuard)
@@ -18,22 +19,34 @@ export class UserController {
 
 	@Get()
 	async getAllUser() {
-		return await this.userService.getAll();
+		return res(await this.userService.getAll());
 	}
 
 	@Get(':id')
 	async getUser(@Param('id') id: number) {
-		return await this.userService.getOne({ id });
+		const found = await this.userService.getOne({ id });
+		if (!found) return KO;
+		else return res(found);
 	}
 
 	@Post()
 	async createUser(@Body() user: any) {
-		return await this.userService.create(user);
+		try {
+			await this.userService.create(user);
+			return OK;
+		} catch (e) {
+			return KO;
+		}
 	}
 
 	@Patch(':id')
 	async updateUser(@Param('id') id: number, @Body() body: any) {
-		return await this.userService.update(id, body);
+		try {
+			await this.userService.update(id, body);
+			return OK;
+		} catch (e) {
+			return KO;
+		}
 	}
 
 	@Delete(':id')
