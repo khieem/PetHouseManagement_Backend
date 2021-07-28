@@ -24,9 +24,6 @@
 		"migration:down": "ts-node ./node_modules/typeorm/cli.js migration:revert",
 		"migration:up": "npm run build && npm run typeorm migration:run"
 	},
-	"engines": {
-		"node": "14.17.1"
-	},
 	"dependencies": {
 		"@nestjs/common": "^8.0.0",
 		"@nestjs/core": "^8.0.0",
