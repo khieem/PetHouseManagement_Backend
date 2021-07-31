@@ -9,6 +9,7 @@ import { ClinicModule } from './clinic/clinic.module';
 import { ReportModule } from './report/report.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { AuthModule } from './auth/auth.module';
+import { ImageModule } from './image/image.module';
 import config from 'ormconfig';
 
 @Module({
@@ -23,6 +24,7 @@ import config from 'ormconfig';
 		ReportModule,
 		ScheduleModule,
 		AuthModule,
+		ImageModule,
 	],
 })
 export class AppModule {}

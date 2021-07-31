@@ -11,7 +11,6 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { KO, OK, res } from 'src/constants';
 import { ClinicService } from './clinic.service';
 import { CreateClinicDto } from './dto/createClinic.dto';
-import { ReturnClinicDto } from './dto/returnClinic.dto';
 import { UpdateClinicDto } from './dto/updateClinic.dto';
 
 @UseGuards(JwtAuthGuard)

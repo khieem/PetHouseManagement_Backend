@@ -21,13 +21,19 @@ export class User {
 	phone: string;
 
 	@Column({ type: 'text', nullable: true })
+	avatar: string;
+
+	@Column({ type: 'text', nullable: true })
 	name: string;
 
-	@Column({ type: 'text', nullable: true })
-	gender: string;
+	@Column({ type: 'date', nullable: true })
+	dob: Date;
 
 	@Column({ type: 'text', nullable: true })
-	role: string;
+	gender: 'nam' | 'nữ' | 'khác';
+
+	@Column({ type: 'text' })
+	role: 'admin' | 'tình nguyện viên' | 'phòng khám' | 'người quyên góp';
 
 	@Column({ type: 'text', nullable: true })
 	address: string;
@@ -35,13 +41,13 @@ export class User {
 	@Column({ type: 'text', nullable: true })
 	email: string;
 
-	@Column({ type: 'boolean', nullable: true })
+	@Column({ type: 'boolean' })
 	collab: boolean;
 
 	@Column({ type: 'text', nullable: true })
 	password: string;
 
-	@OneToMany(() => Donation, (donation) => donation.user)
+	@OneToMany(() => Donation, (donation) => donation.donator)
 	donations: Donation[];
 
 	@OneToMany(() => Schedule, (schedule) => schedule.user)
@@ -54,7 +60,7 @@ export class User {
 	appointments: Appointment[];
 
 	@OneToMany(() => Pet, (pet) => pet.volunteer)
-	pet: Pet;
+	pets: Pet[];
 
 	@CreateDateColumn()
 	createAt: Date;

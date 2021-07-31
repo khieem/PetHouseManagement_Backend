@@ -13,15 +13,9 @@ export class Image {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ type: 'text', nullable: true })
+	@Column({ type: 'text' })
 	url: string;
 
 	@ManyToOne(() => Report, (report) => report.images)
 	report: Report;
-
-	@CreateDateColumn()
-	createAt: Date;
-
-	@UpdateDateColumn()
-	updateAt: Date;
 }

@@ -1,4 +1,6 @@
 export class UpdateVolDto {
+	avatar?: string;
+	dob?: Date;
 	phone?: string;
 	name?: string;
 	gender?: string;

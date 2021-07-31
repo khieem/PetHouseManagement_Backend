@@ -5,37 +5,38 @@ import {
 } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { CreateClinicDto } from './dto/createClinic.dto';
-import { map2clinic, ReturnClinicDto } from './dto/returnClinic.dto';
 import { UpdateClinicDto } from './dto/updateClinic.dto';
 
 @Injectable()
 export class ClinicService {
 	constructor(private userService: UserService) {}
 
-	async getAll(): Promise<ReturnClinicDto[]> {
-		const users = await this.userService.getAll({ role: 'clinic' });
-		return users.map((user) => map2clinic(user));
+	async getAll() {
+		return await this.userService.getAll({ role: 'phòng khám' });
 	}
 
-	async get(i: number): Promise<ReturnClinicDto> {
-		const [found] = await this.userService.getAll({ id: i, role: 'clinic' });
+	async get(i: number) {
+		const found = await this.userService.getOne({ id: i, role: 'phòng khám' });
 		if (!found) throw new NotFoundException();
-		return map2clinic(found);
+		return found;
 	}
 
-	async create(dto: CreateClinicDto): Promise<ReturnClinicDto> {
+	async create(dto: CreateClinicDto) {
 		const found = await this.userService.getOne({ phone: dto.phone });
 		if (found) throw new BadRequestException('Số điện thoại đã được sử dụng');
-		return map2clinic(
-			await this.userService.create({ role: 'clinic', collab: true, ...dto })
-		);
+		return await this.userService.create({
+			role: 'phòng khám',
+			collab: true,
+			password: dto.phone,
+			...dto,
+		});
 	}
 
-	async update(id: number, dto: UpdateClinicDto): Promise<ReturnClinicDto> {
+	async update(id: number, dto: UpdateClinicDto) {
 		if (dto.phone) {
 			const found = await this.userService.getOne({ phone: dto.phone });
 			if (found) throw new BadRequestException();
 		}
-		return map2clinic(await this.userService.update(id, dto));
+		return await this.userService.update(id, dto);
 	}
 }

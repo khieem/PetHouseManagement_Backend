@@ -11,13 +11,13 @@ export class UserService {
 	async getAll(condition?: any): Promise<User[]> {
 		return await this.userDb.find({
 			where: condition,
-			relations: ['pet', 'donations', 'schedules', 'reports', 'appointments'],
+			relations: ['pets', 'donations', 'schedules', 'reports', 'appointments'],
 		});
 	}
 
 	async getOne(condition) {
 		return await this.userDb.findOne(condition, {
-			relations: ['pet', 'donations', 'schedules', 'reports', 'appointments'],
+			relations: ['pets', 'donations', 'schedules', 'reports', 'appointments'],
 		});
 	}
 

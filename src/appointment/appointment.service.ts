@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ClinicService } from 'src/clinic/clinic.service';
 import { Appointment } from 'src/entity/appointment.entity';
+import { PetService } from 'src/pet/pet.service';
 import { Repository } from 'typeorm';
 import { CreateAppoinmentDto } from './dto/createAppoinment.dto';
 import { UpdateAppointmentDto } from './dto/updateAppointment.dto';
@@ -9,7 +11,9 @@ import { UpdateAppointmentDto } from './dto/updateAppointment.dto';
 export class AppointmentService {
 	constructor(
 		@InjectRepository(Appointment)
-		private appointmentDB: Repository<Appointment>
+		private appointmentDB: Repository<Appointment>,
+		private petService: PetService,
+		private clinicService: ClinicService
 	) {}
 
 	async getAllappointments(): Promise<Appointment[]> {
@@ -24,11 +28,12 @@ export class AppointmentService {
 		return found;
 	}
 
-	async addAppointment(
-		createAppoinmentDto: CreateAppoinmentDto
-	): Promise<Appointment> {
-		const appointment = this.appointmentDB.create({ ...createAppoinmentDto });
-		return await this.appointmentDB.save(appointment);
+	async addAppointment(dto: CreateAppoinmentDto): Promise<Appointment> {
+		const { date, petId, clinicId } = dto;
+		const apt = this.appointmentDB.create({ date });
+		apt.pet = await this.petService.getbyId(petId);
+		apt.clinic = await this.clinicService.get(clinicId);
+		return await this.appointmentDB.save(apt);
 	}
 
 	async updateAppointment(

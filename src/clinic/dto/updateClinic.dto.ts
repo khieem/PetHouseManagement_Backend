@@ -1,5 +1,6 @@
 export class UpdateClinicDto {
 	phone?: string;
+	avatar?: string;
 	name?: string;
 	address?: string;
 	email?: string;
