@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Schedule } from 'src/entity/schedule.entity';
 import { Repository } from 'typeorm';
@@ -14,33 +14,22 @@ export class ScheduleService {
 		return await this.scheduleDb.find({ relations: ['user'] });
 	}
 
-	async getById(id: string) {
-		return await this.scheduleDb.findByIds([id], { relations: ['user'] });
+	async getByShift(shift: string) {
+		return await this.scheduleDb.find({ relations: ['user'],
+											where: {
+												shift: shift
+											}})
 	}
 
 	async create(schedule: Schedule) {
 		return await this.scheduleDb.save(schedule);
 	}
 
-	async updateSchedule(id: number, schedulData: ScheduleDto) {
-		const updateData = {
-			shift: schedulData.shift,
-			date: schedulData.date,
-			user: schedulData.user,
-		};
-
-		if (updateData.date == null) {
-			delete updateData.date;
-		}
-
-		if (updateData.shift === 'undefined') {
-			delete updateData.shift;
-		}
-
-		if (updateData.user == null) {
-			delete updateData.user;
-		}
-
-		return await this.scheduleDb.update({ id }, updateData);
+	async update(id: number, updateData: ScheduleDto) {
+		let found = await this.scheduleDb.findOne(id);
+		let newData = Object.assign(found, updateData);
+		return await this.scheduleDb.save(newData);
 	}
+
+
 }
