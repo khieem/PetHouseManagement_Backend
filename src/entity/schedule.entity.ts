@@ -14,10 +14,10 @@ export class Schedule {
 	id: number;
 
 	@Column({ type: 'text', nullable: true })
-	shift: string;
+	shift: 'sáng' | 'chiều' | 'cả ngày';
 
-	@Column({ type: 'datetime', nullable: true })
-	date: Date;
+	@Column({ type: 'text', nullable: true })
+	date: 'thứ 3' |'thứ 4' |'thứ 5' |'thứ 6' |'thứ 7' |'thứ 2';
 
 	@ManyToOne(() => User, (user) => user.schedules)
 	user: User;

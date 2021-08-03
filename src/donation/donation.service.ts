@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { OK } from 'src/constants';
 import { Donation } from 'src/entity/donation.entity';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CreateDonationDto } from './dto/createDonation.dto';
-import { map2donator, ReturnDonatorDto } from './dto/returnDonator.dto';
 
 @Injectable()
 export class DonationService {
@@ -18,12 +18,20 @@ export class DonationService {
 	}
 
 	async create(dto: CreateDonationDto) {
-		const donation = this.donationDb.create({ ...dto });
-		return await this.donationDb.save(donation);
+		const donation = this.donationDb.create();
+		const { amount, donator } = dto;
+		donation.amount = amount;
+		const found = await this.userService.getOne({ id: donator.id });
+		if (!found) {
+			donation.donator = await this.userService.create(donator);
+		} else {
+			donation.donator = found;
+		}
+		await this.donationDb.save(donation);
+		return OK;
 	}
 
-	async getAllDonators(): Promise<ReturnDonatorDto[]> {
-		const users = await this.userService.getAll({ role: 'donator' });
-		return users.map((user) => map2donator(user));
+	async getAllDonators() {
+		return await this.userService.getAll({ role: 'người quyên góp' });
 	}
 }

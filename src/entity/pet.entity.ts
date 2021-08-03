@@ -16,14 +16,17 @@ export class Pet {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ type: 'text', nullable: true })
+	@Column({ type: 'text' })
+	avatar: string;
+
+	@Column({ type: 'text' })
 	name: string;
 
-	@Column({ type: 'text', nullable: true })
-	color: string;
+	@Column({ type: 'text' })
+	type: 'chó' | 'mèo';
 
-	@Column({ type: 'text', nullable: true })
-	location: string;
+	@Column({ type: 'text' })
+	color: string;
 
 	@OneToMany(() => Report, (report) => report.pet)
 	reports: Report[];
@@ -31,12 +34,9 @@ export class Pet {
 	@OneToMany(() => Appointment, (appointment) => appointment.pet)
 	appointments: Appointment[];
 
-	@ManyToOne(() => User, (user) => user.pet)
+	@ManyToOne(() => User, (user) => user.pets)
 	volunteer: User;
 
 	@CreateDateColumn()
 	createAt: Date;
-
-	@UpdateDateColumn()
-	updatedAt: Date;
 }

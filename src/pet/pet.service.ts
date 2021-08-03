@@ -8,10 +8,15 @@ import { Repository } from 'typeorm';
 import { Pet } from 'src/entity/pet.entity';
 import { createPetDto } from './dtos/createPet.dto';
 import { updatePetDto } from './dtos/updatePet.dto';
+import { UserService } from 'src/user/user.service';
+import { VolunteerService } from 'src/volunteer/volunteer.service';
 
 @Injectable()
 export class PetService {
-	constructor(@InjectRepository(Pet) private petDb: Repository<Pet>) {}
+	constructor(
+		@InjectRepository(Pet) private petDb: Repository<Pet>,
+		private volService: VolunteerService
+	) {}
 
 	async getAll() {
 		return await this.petDb.find({
@@ -28,7 +33,11 @@ export class PetService {
 	async create(dto: createPetDto) {
 		const found = await this.petDb.findOne({ name: dto.name });
 		if (found) throw new BadRequestException();
-		const pet = this.petDb.create({ ...dto });
+		const { volunteerId, ...rest } = dto;
+		let pet = this.petDb.create({ ...rest });
+		pet.volunteer = await this.volService.getById(volunteerId);
+		console.log(volunteerId);
+		console.log(await this.volService.getById(volunteerId));
 		return await this.petDb.save(pet);
 	}
 

@@ -14,7 +14,7 @@ export class Appointment {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ type: 'datetime', nullable: true })
+	@Column({ type: 'datetime' })
 	date: Date;
 
 	@ManyToOne(() => Pet, (pet) => pet.appointments)
@@ -22,10 +22,4 @@ export class Appointment {
 
 	@ManyToOne(() => User, (clinic) => clinic.appointments)
 	clinic: User;
-
-	@CreateDateColumn()
-	createAt: Date;
-
-	@UpdateDateColumn()
-	updateAt: Date;
 }

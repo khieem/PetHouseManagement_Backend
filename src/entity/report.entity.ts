@@ -16,14 +16,8 @@ export class Report {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ type: 'float', nullable: true })
-	weight: number;
-
-	@Column({ type: 'float', nullable: true })
-	age: number;
-
-	@Column({ type: 'datetime', nullable: true })
-	date: Date;
+	@Column({ type: 'text' })
+	note: string;
 
 	@OneToMany(() => Image, (image) => image.report)
 	images: Image[];
@@ -36,7 +30,4 @@ export class Report {
 
 	@CreateDateColumn()
 	createAt: Date;
-
-	@UpdateDateColumn()
-	updateAt: Date;
 }

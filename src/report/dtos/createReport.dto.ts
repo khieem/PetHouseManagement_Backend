@@ -1,7 +1,6 @@
-export class createReportDto {
-	weight: number;
-	age: number;
-	date: Date;
+export class CreateReportDto {
+	note: string;
+	images: string[];
 	petId: number;
 	clinicId: number;
 }
