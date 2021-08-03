@@ -16,8 +16,10 @@ export class AppointmentService {
 		private clinicService: ClinicService
 	) {}
 
-	async getAllappointments(): Promise<Appointment[]> {
-		return await this.appointmentDB.find({ relations: ['pet', 'clinic'] });
+	async getAllappointments(condition?): Promise<Appointment[]> {
+		return await this.appointmentDB.find({ 
+			where: condition,
+			relations: ['pet', 'clinic'] });
 	}
 
 	async getSpecificAppointment(id: number): Promise<Appointment> {

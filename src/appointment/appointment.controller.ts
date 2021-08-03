@@ -24,6 +24,11 @@ export class AppointmentController {
 		return res(await this.appointmentService.getAllappointments());
 	}
 
+	@Get('/clinic_appointment/:id')
+	async getClinicAppointment(@Param('id') clinicId: number) {
+		return res(await this.appointmentService.getAllappointments({clinic: clinicId}));
+	}
+
 	@Get(':id')
 	async getSpecificAppointment(@Param('id') id: number) {
 		try {
