@@ -40,9 +40,9 @@ export class ClinicService {
 		return await this.userService.update(id, dto);
 	}
 
-	async searchByPhone(data) {
+	async searchByPhone(phone: string) {
 		const found = await this.userService.getOne({
-			phone: data.search,
+			phone: phone,
 			role: 'phòng khám',
 		});
 		if (!found) throw new NotFoundException();
