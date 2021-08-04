@@ -39,4 +39,13 @@ export class ClinicService {
 		}
 		return await this.userService.update(id, dto);
 	}
+
+	async searchByPhone(data) {
+		const found = await this.userService.getOne({
+			phone: data.search,
+			role: 'phòng khám',
+		});
+		if (!found) throw new NotFoundException();
+		return found;
+	}
 }

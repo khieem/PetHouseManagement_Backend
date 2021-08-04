@@ -30,6 +30,15 @@ export class PetService {
 		});
 	}
 
+	async searchName(data) {
+		const found = await this.petDb.findOne({
+			where: { name: data.search },
+			relations: ['reports', 'appointments', 'volunteer'],
+		});
+		if (!found) throw new NotFoundException();
+		return found;
+	}
+
 	async create(dto: createPetDto) {
 		const found = await this.petDb.findOne({ name: dto.name });
 		if (found) throw new BadRequestException();

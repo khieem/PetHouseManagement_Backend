@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OK } from 'src/constants';
 import { Donation } from 'src/entity/donation.entity';
@@ -14,7 +14,26 @@ export class DonationService {
 	) {}
 
 	async getAll() {
-		return await this.donationDb.find({ relations: ['user'] });
+		return await this.donationDb.find({ relations: ['donator'] });
+	}
+
+	async getbyId(id) {
+		return await this.donationDb.findOne(id, { relations: ['donator'] });
+	}
+
+	async searchDonatorbyPhone(data) {
+		const found = await this.userService.getOne({
+			phone: data.search,
+			role: 'người quyên góp',
+		});
+		if (!found) throw new NotFoundException();
+		return found;
+	}
+	async searchDonationbyPhone(data) {
+		const found = this.searchDonatorbyPhone(data);
+		const donations = (await found).donations;
+		if (donations.length == 0 || !found) throw new NotFoundException();
+		return donations;
 	}
 
 	async create(dto: CreateDonationDto) {
