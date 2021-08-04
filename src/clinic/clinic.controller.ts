@@ -52,7 +52,7 @@ export class ClinicController {
 	}
 
 	@Post('/search')
-	async searchByPhone(@Body() data) {
+	async searchByPhone(@Body('search') data) {
 		try {
 			return res(await this.clinicService.searchByPhone(data));
 		} catch (e) {

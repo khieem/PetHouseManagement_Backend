@@ -24,8 +24,16 @@ export class AppointmentController {
 		return res(await this.appointmentService.getAllappointments());
 	}
 
-	@Get('/clinic_appointment/:id')
+	@Get('/clinic/:id')
 	async getClinicAppointment(@Param('id') clinicId: number) {
+		// try{
+		// 	return res(
+		// 		await this.appointmentService.getAllappointments({ clinic: clinicId })
+		// 	);
+		// } catch (e) {
+		// 	return KO;
+		// }
+
 		return res(
 			await this.appointmentService.getAllappointments({ clinic: clinicId })
 		);
@@ -53,14 +61,14 @@ export class AppointmentController {
 	// 	return await this.appointmentService.updateAppointment(id, body);
 	// }
 
-	@Get('/clinic/:id')
-	async getAppointmentbyClinic(@Param('id') id: number) {
-		try {
-			return res(await this.appointmentService.getAppointmentbyClinic(id));
-		} catch (e) {
-			return KO;
-		}
-	}
+	// @Get('/clinic/:id')
+	// async getAppointmentbyClinic(@Param('id') id: number) {
+	// 	try {
+	// 		return res(await this.appointmentService.getAppointmentbyClinic(id));
+	// 	} catch (e) {
+	// 		return KO;
+	// 	}
+	// }
 
 	@Delete(':id')
 	async deleteAppointment(@Param('id') id: number) {
