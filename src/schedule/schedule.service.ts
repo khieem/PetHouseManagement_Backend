@@ -15,10 +15,12 @@ export class ScheduleService {
 	}
 
 	async getByShift(shift: string) {
-		return await this.scheduleDb.find({ relations: ['user'],
-											where: {
-												shift: shift
-											}})
+		return await this.scheduleDb.find({
+			relations: ['user'],
+			where: {
+				shift: shift,
+			},
+		});
 	}
 
 	async create(schedule: Schedule) {
@@ -31,5 +33,8 @@ export class ScheduleService {
 		return await this.scheduleDb.save(newData);
 	}
 
-
+	async find(condition) {
+		const a = await this.scheduleDb.findOne(condition);
+		return a.id;
+	}
 }

@@ -12,11 +12,11 @@ export class ClinicService {
 	constructor(private userService: UserService) {}
 
 	async getAll() {
-		return await this.userService.getAll({ role: 'phòng khám' });
+		return await this.userService.getAll({ role: 'Phòng khám' });
 	}
 
 	async get(i: number) {
-		const found = await this.userService.getOne({ id: i, role: 'phòng khám' });
+		const found = await this.userService.getOne({ id: i, role: 'Phòng khám' });
 		if (!found) throw new NotFoundException();
 		return found;
 	}
@@ -25,7 +25,7 @@ export class ClinicService {
 		const found = await this.userService.getOne({ phone: dto.phone });
 		if (found) throw new BadRequestException('Số điện thoại đã được sử dụng');
 		return await this.userService.create({
-			role: 'phòng khám',
+			role: 'Phòng khám',
 			collab: true,
 			password: dto.phone,
 			...dto,
@@ -43,7 +43,7 @@ export class ClinicService {
 	async searchByPhone(data) {
 		const found = await this.userService.getOne({
 			phone: data.search,
-			role: 'phòng khám',
+			role: 'Phòng khám',
 		});
 		if (!found) throw new NotFoundException();
 		return found;

@@ -30,6 +30,14 @@ export class AppointmentController {
 			await this.appointmentService.getAllappointments({ clinic: clinicId })
 		);
 	}
+	@Get('/clinic/:id')
+	async getAppointmentbyClinic(@Param('id') id: number) {
+		try {
+			return res(await this.appointmentService.getAppointmentbyClinic(id));
+		} catch (e) {
+			return KO;
+		}
+	}
 
 	@Get(':id')
 	async getSpecificAppointment(@Param('id') id: number) {
@@ -52,15 +60,6 @@ export class AppointmentController {
 	// ) {
 	// 	return await this.appointmentService.updateAppointment(id, body);
 	// }
-
-	@Get('/clinic/:id')
-	async getAppointmentbyClinic(@Param('id') id: number) {
-		try {
-			return res(await this.appointmentService.getAppointmentbyClinic(id));
-		} catch (e) {
-			return KO;
-		}
-	}
 
 	@Delete(':id')
 	async deleteAppointment(@Param('id') id: number) {

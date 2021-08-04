@@ -8,17 +8,23 @@ import { User } from '../entity/user.entity';
 export class UserService {
 	constructor(@InjectRepository(User) private userDb: Repository<User>) {}
 
-	async getAll(condition?: any, getALL=true): Promise<User[]> {
+	async getAll(condition?: any, getALL = true): Promise<User[]> {
 		if (getALL == true)
-		return await this.userDb.find({
-			where: condition,
-			relations: ['pets', 'donations', 'schedules', 'reports', 'appointments'],
-		});
-
-		else return await this.userDb.find({
-			where: condition,
-			relations: ['schedules',],
-		});
+			return await this.userDb.find({
+				where: condition,
+				relations: [
+					'pets',
+					'donations',
+					'schedules',
+					'reports',
+					'appointments',
+				],
+			});
+		else
+			return await this.userDb.find({
+				where: condition,
+				relations: ['schedules'],
+			});
 	}
 
 	async getOne(condition) {
@@ -46,5 +52,11 @@ export class UserService {
 		if (!user) throw new NotFoundException();
 		return await this.userDb.remove(user);
 	}
-	
+	async save(a) {
+		return await this.userDb.save(a);
+	}
+
+	async delete(a) {
+		return await this.userDb.delete(a);
+	}
 }

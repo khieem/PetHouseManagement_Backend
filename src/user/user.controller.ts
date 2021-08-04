@@ -16,29 +16,14 @@ import { UserService } from './user.service';
 @UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UserController {
-	constructor(private userService: UserService,
-				) {}
+	constructor(private userService: UserService) {}
 
 	@Get()
 	async getAllUser() {
-		return res(await this.userService.getAll({collab: "true"}));
+		return res(await this.userService.getAll({ collab: 'true' }));
 	}
 
-
-	@Get('/user_schedule')
-	async getUserBySchedule() {
-		return res(await this.userService.getAll({collab: "true"}, false));
-	}
 	
-		@Get('/user_schedule/:id')
-		async getSpecificUserSchedule(@Param('id') id: number) {
-			const found = await this.userService.getOne({id});
-			if (!found) return KO;
-			else {
-				if (found.collab == false) return KO;
-				else return res(found);
-			}
-		}
 
 	@Get(':id')
 	async getUser(@Param('id') id: number) {

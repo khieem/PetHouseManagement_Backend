@@ -26,15 +26,6 @@ export class DonationController {
 		return res(await this.donationService.getAll());
 	}
 
-	@Get(':id')
-	async getbyId(@Param('id') id: number) {
-		try {
-			return res(await this.donationService.getbyId(id));
-		} catch (e) {
-			return KO;
-		}
-	}
-
 	@Post('/donator/search')
 	async searchDonatorbyPhone(@Body() data) {
 		try {
@@ -47,7 +38,7 @@ export class DonationController {
 	@Post('/search')
 	async searchDonationbyPhone(@Body() data) {
 		try {
-			return res(await this.donationService.searchDonationbyPhone(data)).data;
+			return res(await this.donationService.searchDonationbyPhone(data));
 		} catch (e) {
 			return KO;
 		}
@@ -62,6 +53,15 @@ export class DonationController {
 	@Get('donator')
 	async getAllDonators() {
 		return res(await this.donationService.getAllDonators());
+	}
+
+	@Get(':id')
+	async getbyId(@Param('id') id: number) {
+		try {
+			return res(await this.donationService.getbyId(id));
+		} catch (e) {
+			return KO;
+		}
 	}
 
 	@Post('donator')

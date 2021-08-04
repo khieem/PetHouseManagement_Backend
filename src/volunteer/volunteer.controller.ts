@@ -11,16 +11,35 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { KO, OK, res } from 'src/constants';
 import { User } from 'src/entity/user.entity';
+import { UserService } from 'src/user/user.service';
 import { VolunteerService } from './volunteer.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('volunteer')
 export class VolunteerController {
-	constructor(private volunteerService: VolunteerService) {}
+	constructor(
+		private volunteerService: VolunteerService,
+		private userService: UserService
+	) {}
 
 	@Get()
 	async getAllVolunteers() {
 		return res(await this.volunteerService.getAll());
+	}
+
+	@Get('schedule')
+	async getUserBySchedule() {
+		return res(await this.userService.getAll({ collab: 'true' }, false));
+	}
+
+	@Get('schedule/:id')
+	async getSpecificUserSchedule(@Param('id') id: number) {
+		const found = await this.userService.getOne({ id });
+		if (!found) return KO;
+		else {
+			if (found.collab == false) return KO;
+			else return res(found.schedules);
+		}
 	}
 
 	@Get(':id')
@@ -38,6 +57,18 @@ export class VolunteerController {
 		} catch (e) {
 			return KO;
 		}
+	}
+
+	@Post('search')
+	async find(@Body() condition) {
+		const found = await this.volunteerService.get(condition);
+		if (!found) return KO;
+		else return res(found);
+	}
+
+	@Post('schedule/:id')
+	async updateSchedule(@Param('id') id: number, @Body() body) {
+		return await this.volunteerService.updateSchedule(id, body);
 	}
 
 	@Patch(':id')

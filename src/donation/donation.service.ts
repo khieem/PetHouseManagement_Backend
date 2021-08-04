@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OK } from 'src/constants';
+import { OK, res } from 'src/constants';
 import { Donation } from 'src/entity/donation.entity';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
@@ -24,7 +24,7 @@ export class DonationService {
 	async searchDonatorbyPhone(data) {
 		const found = await this.userService.getOne({
 			phone: data.search,
-			role: 'người quyên góp',
+			role: 'Người quyên góp',
 		});
 		if (!found) throw new NotFoundException();
 		return found;
@@ -40,9 +40,13 @@ export class DonationService {
 		const donation = this.donationDb.create();
 		const { amount, donator } = dto;
 		donation.amount = amount;
-		const found = await this.userService.getOne({ id: donator.id });
+		const found = await this.userService.getOne({ phone: donator.phone });
 		if (!found) {
-			donation.donator = await this.userService.create(donator);
+			donation.donator = await this.userService.create({
+				role: 'Người quyên góp',
+				collab: true,
+				...donator,
+			});
 		} else {
 			donation.donator = found;
 		}
@@ -51,6 +55,6 @@ export class DonationService {
 	}
 
 	async getAllDonators() {
-		return await this.userService.getAll({ role: 'người quyên góp' });
+		return await this.userService.getAll({ role: 'Người quyên góp' });
 	}
 }
