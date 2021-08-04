@@ -53,10 +53,14 @@ export class PetService {
 	async updateInf(id: string, dto: updatePetDto) {
 		let toUpdate = await this.petDb.findOne(id);
 		if (!toUpdate) throw new NotFoundException('Không tồn tại thú cưng này');
-
+		
+		const volun = await this.volService.getById(dto.volunteerId)
+		
 		const found = await this.petDb.findOne({ name: dto.name });
 		if (found) throw new BadRequestException();
+
 		let update = Object.assign(toUpdate, dto);
+		update.volunteer = volun;
 		return this.petDb.save(update);
 	}
 }
