@@ -50,4 +50,13 @@ export class ClinicController {
 			return KO;
 		}
 	}
+
+	@Post('/search')
+	async searchByPhone(@Body() data) {
+		try {
+			return res(await this.clinicService.searchByPhone(data));
+		} catch (e) {
+			return KO;
+		}
+	}
 }

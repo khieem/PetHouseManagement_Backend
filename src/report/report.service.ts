@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ClinicService } from 'src/clinic/clinic.service';
 import { Report } from 'src/entity/report.entity';
@@ -26,6 +26,12 @@ export class ReportService {
 		});
 	}
 
+	async getReportbyClinic(id: number) {
+		const found = await this.clinicService.get(id);
+		if (!found) throw new NotFoundException();
+		return found.reports;
+	}
+
 	async create(dto: CreateReportDto) {
 		let rp = this.reportDb.create();
 		const { images, note, petId, clinicId } = dto;
@@ -35,6 +41,7 @@ export class ReportService {
 		rp.note = note;
 		rp.pet = await this.petService.getbyId(petId);
 		rp.clinic = await this.clinicService.get(clinicId);
-		return await this.reportDb.save(rp);
+		await this.reportDb.save(rp);
+		return await this.getAll();
 	}
 }

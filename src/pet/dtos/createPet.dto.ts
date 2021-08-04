@@ -1,4 +1,5 @@
 export class createPetDto {
+	image?: [];
 	name: string;
 	avatar: string;
 	weight: number;

@@ -17,9 +17,10 @@ export class AppointmentService {
 	) {}
 
 	async getAllappointments(condition?): Promise<Appointment[]> {
-		return await this.appointmentDB.find({ 
+		return await this.appointmentDB.find({
 			where: condition,
-			relations: ['pet', 'clinic'] });
+			relations: ['pet', 'clinic'],
+		});
 	}
 
 	async getSpecificAppointment(id: number): Promise<Appointment> {
@@ -51,6 +52,13 @@ export class AppointmentService {
 	async deleteAppointment(id: number) {
 		const found = await this.appointmentDB.findOne(id);
 		if (!found) throw new NotFoundException();
-		return await this.appointmentDB.remove(found);
+		await this.appointmentDB.remove(found);
+		return this.getAllappointments();
+	}
+
+	async getAppointmentbyClinic(id: number) {
+		const found = await this.clinicService.get(id);
+		if (!found) throw new NotFoundException();
+		return found.appointments;
 	}
 }

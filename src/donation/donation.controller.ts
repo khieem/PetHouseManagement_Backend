@@ -1,6 +1,14 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	Patch,
+	Post,
+	UseGuards,
+	Param,
+} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { OK, res } from 'src/constants';
+import { OK, res, KO } from 'src/constants';
 import { UserService } from 'src/user/user.service';
 import { DonationService } from './donation.service';
 import { CreateDonationDto } from './dto/createDonation.dto';
@@ -16,6 +24,33 @@ export class DonationController {
 	@Get()
 	async getAllDonations() {
 		return res(await this.donationService.getAll());
+	}
+
+	@Get(':id')
+	async getbyId(@Param('id') id: number) {
+		try {
+			return res(await this.donationService.getbyId(id));
+		} catch (e) {
+			return KO;
+		}
+	}
+
+	@Post('/donator/search')
+	async searchDonatorbyPhone(@Body() data) {
+		try {
+			return res(await this.donationService.searchDonatorbyPhone(data));
+		} catch (e) {
+			return KO;
+		}
+	}
+
+	@Post('/search')
+	async searchDonationbyPhone(@Body() data) {
+		try {
+			return res(await this.donationService.searchDonationbyPhone(data)).data;
+		} catch (e) {
+			return KO;
+		}
 	}
 
 	@Post()

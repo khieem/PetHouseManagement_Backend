@@ -41,6 +41,15 @@ export class PetController {
 		}
 	}
 
+	@Post('/search')
+	async searcByhName(@Body() data) {
+		try {
+			return await this.petService.searchName(data);
+		} catch (e) {
+			return KO;
+		}
+	}
+
 	@Patch(':id')
 	async updatePet(@Param('id') id: string, @Body() petdata: updatePetDto) {
 		try {

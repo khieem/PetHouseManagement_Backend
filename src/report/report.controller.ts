@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { res } from 'src/constants';
+import { KO, res } from 'src/constants';
 import { CreateReportDto } from './dtos/createReport.dto';
 import { ReportService } from './report.service';
 
@@ -12,6 +12,15 @@ export class ReportController {
 	@Get()
 	async getAllReports() {
 		return res(await this.reportService.getAll());
+	}
+
+	@Get('/clinic/:id')
+	async getReportbyClinic(@Param('id') id: number) {
+		try {
+			return await this.reportService.getReportbyClinic(id);
+		} catch (e) {
+			return KO;
+		}
 	}
 
 	@Get(':id')
