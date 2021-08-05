@@ -24,20 +24,20 @@ export class AppointmentController {
 		return res(await this.appointmentService.getAllappointments());
 	}
 
-	@Get('/clinic/:id')
-	async getClinicAppointment(@Param('id') clinicId: number) {
-		// try{
-		// 	return res(
-		// 		await this.appointmentService.getAllappointments({ clinic: clinicId })
-		// 	);
-		// } catch (e) {
-		// 	return KO;
-		// }
+	// @Get('/clinic/:id')
+	// async getClinicAppointment(@Param('id') clinicId: number) {
+	// 	// try{
+	// 	// 	return res(
+	// 	// 		await this.appointmentService.getAllappointments({ clinic: clinicId })
+	// 	// 	);
+	// 	// } catch (e) {
+	// 	// 	return KO;
+	// 	// }
 
-		return res(
-			await this.appointmentService.getAllappointments({ clinic: clinicId })
-		);
-	}
+	// 	return res(
+	// 		await this.appointmentService.getAllappointments({ clinic: clinicId })
+	// 	);
+	// }
 	@Get('/clinic/:id')
 	async getAppointmentbyClinic(@Param('id') id: number) {
 		try {
