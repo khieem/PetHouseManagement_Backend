@@ -48,13 +48,8 @@ export class VolunteerService {
 				for (let i = 0; i < found.schedules.length; ++i) {
 					const j = await this.scheduleService.find({ date: d });
 					await this.scheduleService.update(j, s);
-					// if (found.schedules[i].date === d) {
-					// 	found.schedules[i].shift = s.shift;
-					// }
 				}
 			});
-			// await this.userService.delete(idx);
-			// await this.userService.create(found);
 			return OK;
 		}
 	}
