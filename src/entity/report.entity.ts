@@ -19,7 +19,7 @@ export class Report {
 	@Column({ type: 'text' })
 	note: string;
 
-	@OneToMany(() => Image, (image) => image.report)
+	@OneToMany(() => Image, (image) => image.report, { eager: true })
 	images: Image[];
 
 	@ManyToOne(() => Pet, (pet) => pet.reports)
