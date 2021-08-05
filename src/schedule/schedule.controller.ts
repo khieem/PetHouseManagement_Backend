@@ -22,5 +22,4 @@ export class ScheduleController {
 	async getAllUser(@Param('shift') shift: string) {
 		return await this.scheduleService.getByShift(shift);
 	}
-
 }
