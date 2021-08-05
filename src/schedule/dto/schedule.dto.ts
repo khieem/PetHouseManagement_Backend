@@ -1,7 +1,7 @@
-import { User } from "src/entity/user.entity"
+import { User } from 'src/entity/user.entity';
 
 export class ScheduleDto {
-    shift?: string;
-    date?: string;
-    user?: User;
+	shift?: string;
+	date?: string;
+	user?: User;
 }
