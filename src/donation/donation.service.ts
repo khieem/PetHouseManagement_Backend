@@ -30,14 +30,10 @@ export class DonationService {
 		return found;
 	}
 	async searchDonationbyPhone(data) {
-		const found = await this.searchDonatorbyPhone(data);
-		const ds = found.donations;
-		if (ds.length == 0 || !found) throw new NotFoundException();
-		const { donations, ...rest } = found;
-
-		return ds.map((d) => {
-			return { ...d, donator: rest };
-		});
+		const found = this.searchDonatorbyPhone(data);
+		const donations = (await found).donations;
+		if (donations.length == 0 || !found) throw new NotFoundException();
+		return donations;
 	}
 
 	async create(dto: CreateDonationDto) {
