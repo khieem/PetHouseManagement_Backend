@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { OK, res } from 'src/constants';
 import { Schedule } from 'src/entity/schedule.entity';
 import { Repository } from 'typeorm';
 import { ScheduleDto } from './dto/schedule.dto';
@@ -10,8 +11,37 @@ export class ScheduleService {
 		@InjectRepository(Schedule) private scheduleDb: Repository<Schedule>
 	) {}
 
-	async getAll() {
-		return await this.scheduleDb.find({ relations: ['user'] });
+	/* 
+	sáng[
+	thứ 2 [user],
+	thứ 3 []
+	]
+	*/
+
+	async getAll(shift=["Sáng", "Chiều", "Cả ngày", "Nghỉ"], date=["2", "3", "4", "5", "6", "7"]) {
+		// return await this.scheduleDb.find({ relations: ['user'] });
+		let userSchedule = {};
+		const result = new Map();
+		for (let i in shift) {
+			for (let j in date) {
+				let index = 0;
+				let user = await this.scheduleDb.find({
+					relations: ['user'],
+					where: {
+						shift: String(shift[i]),
+						date: String(date[j])
+					}
+				})
+				if (user.length == 0) continue;
+				else {
+					userSchedule = user;
+					index += 1;
+				}
+			}
+			result.set(String(shift[i]), userSchedule);
+			userSchedule = new Array();
+		}
+		return result.get("Sáng");
 	}
 
 	async getByShift(shift: string) {
