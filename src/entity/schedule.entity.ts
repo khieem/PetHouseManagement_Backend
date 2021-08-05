@@ -17,7 +17,7 @@ export class Schedule {
 	shift: 'sáng' | 'chiều' | 'cả ngày';
 
 	@Column({ type: 'text', nullable: true })
-	date: 'thứ 3' |'thứ 4' |'thứ 5' |'thứ 6' |'thứ 7' |'thứ 2';
+	date: '3' |'4' |'5' |'6' |'7' |'2';
 
 	@ManyToOne(() => User, (user) => user.schedules)
 	user: User;

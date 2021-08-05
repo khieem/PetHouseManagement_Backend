@@ -23,4 +23,6 @@ export class ScheduleController {
 		return await this.scheduleService.getByShift(shift);
 	}
 
+	
+
 }
