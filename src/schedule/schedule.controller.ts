@@ -10,7 +10,8 @@ export class ScheduleController {
 
 	@Get()
 	async getAllSchedules() {
-		return await this.scheduleService.getAll();
+		const scheduleAllData = await this.scheduleService.getAll();
+		return scheduleAllData;
 	}
 
 	@Post()
