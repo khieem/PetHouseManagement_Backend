@@ -69,7 +69,7 @@ export class VolunteerService {
 				} else {
 					// chỗ này cực lỗi !!!!
 					for (let i = 0; i < found.schedules.length; ++i) {
-						const j = await this.scheduleService.find({ date: d });
+						const j = await this.scheduleService.find({ date: d, user: found });
 						await this.scheduleService.update(j, s);
 
 						// if (found.schedules[i].date === d) {
