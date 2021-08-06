@@ -40,12 +40,21 @@ export class VolunteerService {
 	}
 
 	// tqnguyen đã sửa function này, trước đó function này không thể update data nếu đây là 1 user mới
-	async updateSchedule(_id: number, body: any[]) {
-		// body array [{date: 2, shift: sang}, {}, {}...]
+	async updateSchedule(
+		_id: number,
+		obj: {
+			data: {
+				date: '2' | '3' | '4' | '5' | '6' | '7';
+				shift: 'Sáng' | 'Chiều' | 'Cả ngày' | 'Nghỉ';
+			}[];
+		}
+	) {
+		// object nhận từ POST có dạng { data: [{date: 2, shift: sang}, {}, {}...] }
 
 		const found = await this.userService.getOne({ id: _id });
 		if (!found) return KO;
 		else {
+			const body = obj.data;
 			body.forEach(async (s: any) => {
 				const d = s.date;
 
@@ -60,7 +69,7 @@ export class VolunteerService {
 				} else {
 					// chỗ này cực lỗi !!!!
 					for (let i = 0; i < found.schedules.length; ++i) {
-						const j = await this.scheduleService.find({ date: d });
+						const j = await this.scheduleService.find({ date: d, user: found });
 						await this.scheduleService.update(j, s);
 
 						// if (found.schedules[i].date === d) {
