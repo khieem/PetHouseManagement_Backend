@@ -44,7 +44,7 @@ export class PetController {
 	@Post('/search')
 	async searcByhName(@Body() data) {
 		try {
-			return res(await this.petService.searchName(data));
+			return await this.petService.searchName(data);
 		} catch (e) {
 			return KO;
 		}

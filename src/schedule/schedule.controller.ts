@@ -8,9 +8,11 @@ import { ScheduleService } from './schedule.service';
 export class ScheduleController {
 	constructor(private scheduleService: ScheduleService) {}
 
+	// tqnguyen sửa function này
 	@Get()
-	async getAllSchedules() {
-		return await this.scheduleService.getAll();
+	async getSchedule() {
+		const schedule = await this.scheduleService.getSchedule();
+		return { status: 'OK', data: schedule };
 	}
 
 	@Post()
@@ -22,5 +24,4 @@ export class ScheduleController {
 	async getAllUser(@Param('shift') shift: string) {
 		return await this.scheduleService.getByShift(shift);
 	}
-
 }

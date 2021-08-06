@@ -25,7 +25,7 @@ export class Report {
 	@ManyToOne(() => Pet, (pet) => pet.reports)
 	pet: Pet;
 
-	@ManyToOne(() => User, (clinic) => clinic.reports)
+	@ManyToOne(() => User, (clinic) => clinic.reports, { eager: true })
 	clinic: User;
 
 	@CreateDateColumn()

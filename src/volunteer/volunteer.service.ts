@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { identity } from 'rxjs';
 import { KO, OK } from 'src/constants';
+import { Schedule } from 'src/entity/schedule.entity';
+import { ScheduleDto } from 'src/schedule/dto/schedule.dto';
 import { ScheduleService } from 'src/schedule/schedule.service';
 import { UserService } from 'src/user/user.service';
 import { CreateVolDto } from './dto/createVolunteer.dto';
@@ -37,19 +39,38 @@ export class VolunteerService {
 		return this.userService.update(id, dto);
 	}
 
-	async updateSchedule(idx: number, payload) {
-		const body = payload.data;
+	// tqnguyen đã sửa function này, trước đó function này không thể update data nếu đây là 1 user mới
+	async updateSchedule(_id: number, body: any[]) {
 		// body array [{date: 2, shift: sang}, {}, {}...]
-		let found = await this.userService.getOne({ id: idx });
+
+		const found = await this.userService.getOne({ id: _id });
 		if (!found) return KO;
 		else {
-			body.forEach(async (s) => {
+			body.forEach(async (s: any) => {
 				const d = s.date;
-				for (let i = 0; i < found.schedules.length; ++i) {
-					const j = await this.scheduleService.find({ date: d });
-					await this.scheduleService.update(j, s);
+
+				// kiểm tra nếu user là người mới (schedules sẽ = rỗng) => tạo mới schedule
+				if (found.schedules.length === 0) {
+					const data: any = {
+						shift: s.shift,
+						date: s.date,
+						user: found,
+					};
+					await this.scheduleService.create(data);
+				} else {
+					// chỗ này cực lỗi !!!!
+					for (let i = 0; i < found.schedules.length; ++i) {
+						const j = await this.scheduleService.find({ date: d });
+						await this.scheduleService.update(j, s);
+
+						// if (found.schedules[i].date === d) {
+						// 	found.schedules[i].shift = s.shift;
+						// }
+					}
 				}
 			});
+			// await this.userService.delete(idx);
+			// await this.userService.create(found);
 			return OK;
 		}
 	}
