@@ -16,7 +16,7 @@ export class Donation {
 	@Column({ type: 'float' })
 	amount: number;
 
-	@ManyToOne(() => User, (user) => user.donations)
+	@ManyToOne(() => User, (user) => user.donations, { eager: true })
 	donator: User;
 
 	@CreateDateColumn()

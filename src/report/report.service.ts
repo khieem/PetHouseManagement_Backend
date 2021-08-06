@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ClinicService } from 'src/clinic/clinic.service';
+import { OK } from 'src/constants';
 import { Report } from 'src/entity/report.entity';
 import { ImageService } from 'src/image/image.service';
 import { PetService } from 'src/pet/pet.service';
@@ -42,6 +43,6 @@ export class ReportService {
 		rp.pet = await this.petService.getbyId(petId);
 		rp.clinic = await this.clinicService.get(clinicId);
 		await this.reportDb.save(rp);
-		return await this.getAll();
+		return OK;
 	}
 }
