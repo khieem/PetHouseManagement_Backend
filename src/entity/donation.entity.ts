@@ -16,6 +16,9 @@ export class Donation {
 	@Column({ type: 'float' })
 	amount: number;
 
+	@Column({ type: 'text' })
+	address: string;
+
 	@ManyToOne(() => User, (user) => user.donations)
 	donator: User;
 
