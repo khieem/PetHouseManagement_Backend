@@ -38,8 +38,9 @@ export class DonationService {
 
 	async create(dto: CreateDonationDto) {
 		const donation = this.donationDb.create();
-		const { amount, donator } = dto;
+		const { amount, donator, address } = dto;
 		donation.amount = amount;
+		donation.address = address;
 		const found = await this.userService.getOne({ phone: donator.phone });
 		if (!found) {
 			donation.donator = await this.userService.create({

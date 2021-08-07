@@ -16,7 +16,7 @@ export class Donation {
 	@Column({ type: 'float' })
 	amount: number;
 
-	@Column({ type: 'text' })
+	@Column({ type: 'text', nullable: true })
 	address: string;
 
 	@ManyToOne(() => User, (user) => user.donations, { eager: true })
