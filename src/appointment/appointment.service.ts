@@ -22,8 +22,10 @@ export class AppointmentService {
 			relations: ['pet', 'clinic'],
 		});
 
-		if (found.length == 0) throw new NotFoundException();
-		else return found;
+		if (found.length == 0) {
+			if (condition) throw new NotFoundException();
+			return [];
+		} else return found;
 	}
 
 	async getSpecificAppointment(id: number): Promise<Appointment> {
@@ -55,8 +57,7 @@ export class AppointmentService {
 	async deleteAppointment(id: number) {
 		const found = await this.appointmentDB.findOne(id);
 		if (!found) throw new NotFoundException();
-		await this.appointmentDB.remove(found);
-		return this.getAllappointments();
+		return await this.appointmentDB.remove(found);
 	}
 
 	async getAppointmentbyClinic(id: number) {
