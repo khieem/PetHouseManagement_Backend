@@ -1,6 +1,7 @@
 /* eslint-disable prefer-const */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { KO, OK, res } from 'src/constants';
 import { Schedule } from 'src/entity/schedule.entity';
 import { Repository } from 'typeorm';
 import { ScheduleDto } from './dto/schedule.dto';

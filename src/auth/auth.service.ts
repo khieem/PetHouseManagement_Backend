@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	Injectable,
 	NotFoundException,
 	UnauthorizedException,
@@ -17,6 +18,7 @@ export class AuthService {
 		const user = await this.userService.getOne({ phone: phone });
 		if (!user) throw new NotFoundException();
 		if (user.password != password) throw new UnauthorizedException();
+		if (user.collab != true) throw new BadRequestException();
 		return user;
 	}
 	async login(info) {
@@ -31,7 +33,9 @@ export class AuthService {
 		} catch (e) {
 			if (e instanceof NotFoundException)
 				return { status: 'KO', errorCode: 1001 };
-			else return { status: 'KO', errorCode: 1002 };
+			else if (e instanceof UnauthorizedException)
+				return { status: 'KO', errorCode: 1002 };
+			else return { status: 'KO', errorCode: 1003 };
 		}
 	}
 }
