@@ -30,25 +30,4 @@ export class Report {
 
 	@CreateDateColumn()
 	createAt: Date;
-
-	@Column({ type: 'text', nullable: true })
-	weight: string;
-
-	@Column({ type: 'text', nullable: true })
-	overall: string;
-
-	@Column({ type: 'text', nullable: true })
-	allergies: string;
-
-	@Column({ type: 'text', nullable: true })
-	vaccines: string;
-
-	@Column({ type: 'text', nullable: true })
-	surgeries: string;
-
-	@Column({ type: 'text', nullable: true })
-	diagnosis: string;
-
-	@Column({ type: 'text', nullable: true })
-	prescription: string;
 }
