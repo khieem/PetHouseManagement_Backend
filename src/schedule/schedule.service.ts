@@ -44,6 +44,10 @@ export class ScheduleService {
 	async getSchedule() {
 		const scheduleMorning = await this.getByShift('Sáng');
 		const scheduleAfternoon = await this.getByShift('Chiều');
+		const scheduleEvening = await this.getByShift('Tối');
+		const schedule_M_A = await this.getByShift('Sáng & Chiều');
+		const schedule_M_E = await this.getByShift('Sáng & Tối');
+		const schedule_A_E = await this.getByShift('Chiều & Tối');
 		const scheduleAllDay = await this.getByShift('Cả ngày');
 
 		let morning = {
@@ -60,6 +64,17 @@ export class ScheduleService {
 		let afternoon = {
 			id: 2,
 			shift: 'Chiều',
+			mon: [],
+			tue: [],
+			wed: [],
+			thu: [],
+			fri: [],
+			sat: [],
+		};
+
+		let evening = {
+			id: 3,
+			shift: 'Tối',
 			mon: [],
 			tue: [],
 			wed: [],
@@ -86,7 +101,16 @@ export class ScheduleService {
 			else if (schedule.date === '7') afternoon.sat.push(schedule.user);
 		});
 
-		scheduleAllDay.forEach((schedule) => {
+		scheduleEvening.forEach((schedule) => {
+			if (schedule.date === '2') evening.mon.push(schedule.user);
+			else if (schedule.date === '3') evening.tue.push(schedule.user);
+			else if (schedule.date === '4') evening.wed.push(schedule.user);
+			else if (schedule.date === '5') evening.thu.push(schedule.user);
+			else if (schedule.date === '6') evening.fri.push(schedule.user);
+			else if (schedule.date === '7') evening.sat.push(schedule.user);
+		});
+
+		schedule_M_A.forEach((schedule) => {
 			if (schedule.date === '2') {
 				morning.mon.push(schedule.user);
 				afternoon.mon.push(schedule.user);
@@ -108,6 +132,78 @@ export class ScheduleService {
 			}
 		});
 
-		return [morning, afternoon];
+		schedule_M_E.forEach((schedule) => {
+			if (schedule.date === '2') {
+				morning.mon.push(schedule.user);
+				evening.mon.push(schedule.user);
+			} else if (schedule.date === '3') {
+				morning.tue.push(schedule.user);
+				evening.tue.push(schedule.user);
+			} else if (schedule.date === '4') {
+				morning.wed.push(schedule.user);
+				evening.wed.push(schedule.user);
+			} else if (schedule.date === '5') {
+				morning.thu.push(schedule.user);
+				evening.thu.push(schedule.user);
+			} else if (schedule.date === '6') {
+				morning.fri.push(schedule.user);
+				evening.fri.push(schedule.user);
+			} else if (schedule.date === '7') {
+				morning.sat.push(schedule.user);
+				evening.sat.push(schedule.user);
+			}
+		});
+
+		schedule_A_E.forEach((schedule) => {
+			if (schedule.date === '2') {
+				afternoon.mon.push(schedule.user);
+				evening.mon.push(schedule.user);
+			} else if (schedule.date === '3') {
+				afternoon.tue.push(schedule.user);
+				evening.tue.push(schedule.user);
+			} else if (schedule.date === '4') {
+				afternoon.wed.push(schedule.user);
+				evening.wed.push(schedule.user);
+			} else if (schedule.date === '5') {
+				afternoon.thu.push(schedule.user);
+				evening.thu.push(schedule.user);
+			} else if (schedule.date === '6') {
+				afternoon.fri.push(schedule.user);
+				evening.fri.push(schedule.user);
+			} else if (schedule.date === '7') {
+				afternoon.sat.push(schedule.user);
+				evening.sat.push(schedule.user);
+			}
+		});
+
+		scheduleAllDay.forEach((schedule) => {
+			if (schedule.date === '2') {
+				morning.mon.push(schedule.user);
+				afternoon.mon.push(schedule.user);
+				evening.mon.push(schedule.user);
+			} else if (schedule.date === '3') {
+				morning.tue.push(schedule.user);
+				afternoon.tue.push(schedule.user);
+				evening.tue.push(schedule.user);
+			} else if (schedule.date === '4') {
+				morning.wed.push(schedule.user);
+				afternoon.wed.push(schedule.user);
+				evening.wed.push(schedule.user);
+			} else if (schedule.date === '5') {
+				morning.thu.push(schedule.user);
+				afternoon.thu.push(schedule.user);
+				evening.thu.push(schedule.user);
+			} else if (schedule.date === '6') {
+				morning.fri.push(schedule.user);
+				afternoon.fri.push(schedule.user);
+				evening.fri.push(schedule.user);
+			} else if (schedule.date === '7') {
+				morning.sat.push(schedule.user);
+				afternoon.sat.push(schedule.user);
+				evening.sat.push(schedule.user);
+			}
+		});
+
+		return [morning, afternoon, evening];
 	}
 }
