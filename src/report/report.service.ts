@@ -35,11 +35,30 @@ export class ReportService {
 
 	async create(dto: CreateReportDto) {
 		let rp = this.reportDb.create();
-		const { images, note, petId, clinicId } = dto;
+		const {
+			images,
+			note,
+			petId,
+			clinicId,
+			weight,
+			overall,
+			allergies,
+			vaccines,
+			surgeries,
+			diagnosis,
+			prescription,
+		} = dto;
 		for (const img in images) {
 			await this.imageService.create(img, rp);
 		}
 		rp.note = note;
+		rp.weight = weight;
+		rp.overall = overall;
+		rp.allergies = allergies;
+		rp.vaccines = vaccines;
+		rp.surgeries = surgeries;
+		rp.diagnosis = diagnosis;
+		rp.prescription = prescription;
 		rp.pet = await this.petService.getbyId(petId);
 		rp.clinic = await this.clinicService.get(clinicId);
 		await this.reportDb.save(rp);
