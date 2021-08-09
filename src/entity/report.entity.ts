@@ -19,8 +19,8 @@ export class Report {
 	@Column({ type: 'text' })
 	note: string;
 
-	@OneToMany(() => Image, (image) => image.report, { eager: true })
-	images: Image[];
+	// @OneToMany(() => Image, (image) => image.report, { eager: true })
+	// images: Image[];
 
 	@ManyToOne(() => Pet, (pet) => pet.reports)
 	pet: Pet;
@@ -51,4 +51,7 @@ export class Report {
 
 	@Column({ type: 'text', nullable: true })
 	prescription: string;
+
+	@Column({ type: 'text', nullable: true })
+	images: string;
 }
