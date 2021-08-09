@@ -30,7 +30,10 @@ export class ReportService {
 	async getReportbyClinic(id: number) {
 		const found = await this.clinicService.get(id);
 		if (!found) throw new NotFoundException();
-		return found.reports;
+		return {
+			status: 'OK',
+			data: found.reports,
+		};
 	}
 
 	async create(dto: CreateReportDto) {

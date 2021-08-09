@@ -22,7 +22,7 @@ export class Report {
 	// @OneToMany(() => Image, (image) => image.report, { eager: true })
 	// images: Image[];
 
-	@ManyToOne(() => Pet, (pet) => pet.reports)
+	@ManyToOne(() => Pet, (pet) => pet.reports, { eager: true })
 	pet: Pet;
 
 	@ManyToOne(() => User, (clinic) => clinic.reports, { eager: true })

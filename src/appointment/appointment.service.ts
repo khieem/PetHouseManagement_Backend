@@ -23,7 +23,7 @@ export class AppointmentService {
 		});
 
 		if (found.length == 0) {
-			if (condition) throw new NotFoundException();
+			// if (condition) throw new NotFoundException();
 			return [];
 		} else return found;
 	}
@@ -63,7 +63,7 @@ export class AppointmentService {
 
 	async getAppointmentbyClinic(id: number) {
 		const found = await this.clinicService.get(id);
-		if (!found) throw new NotFoundException();
+		if (!found) return { status: 'OK', data: [] };
 		return found.appointments;
 	}
 }
