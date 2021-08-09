@@ -28,6 +28,15 @@ export class Pet {
 	@Column({ type: 'text' })
 	color: string;
 
+	@Column({ type: 'text', nullable: true })
+	gender: string;
+
+	@Column({ type: 'text', nullable: true })
+	location: string;
+
+	@Column({ type: 'text', nullable: true })
+	description: string;
+
 	@OneToMany(() => Report, (report) => report.pet)
 	reports: Report[];
 
