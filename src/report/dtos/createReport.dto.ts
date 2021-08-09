@@ -1,6 +1,6 @@
 export class CreateReportDto {
 	note: string;
-	images: string[];
+	images: string;
 	petId: number;
 	clinicId: number;
 	weight: string;

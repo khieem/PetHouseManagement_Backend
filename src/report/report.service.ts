@@ -18,12 +18,12 @@ export class ReportService {
 	) {}
 
 	async getAll() {
-		return await this.reportDb.find({ relations: ['images', 'pet', 'clinic'] });
+		return await this.reportDb.find({ relations: ['pet', 'clinic'] });
 	}
 
 	async getById(id: number) {
 		return await this.reportDb.findByIds([id], {
-			relations: ['images', 'pet', 'clinic'],
+			relations: ['pet', 'clinic'],
 		});
 	}
 
@@ -48,9 +48,6 @@ export class ReportService {
 			diagnosis,
 			prescription,
 		} = dto;
-		for (const img in images) {
-			await this.imageService.create(img, rp);
-		}
 		rp.note = note;
 		rp.weight = weight;
 		rp.overall = overall;
@@ -59,6 +56,7 @@ export class ReportService {
 		rp.surgeries = surgeries;
 		rp.diagnosis = diagnosis;
 		rp.prescription = prescription;
+		rp.images = images;
 		rp.pet = await this.petService.getbyId(petId);
 		rp.clinic = await this.clinicService.get(clinicId);
 		await this.reportDb.save(rp);
